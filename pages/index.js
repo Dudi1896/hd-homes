@@ -10,16 +10,17 @@ export const getStaticProps = async () => {
   const { data } = await client.query({
     query: gql`
     query PagesQuery {
-      pages {
-        nodes {
-          title
+      nodeByUri(uri: "/") {
+        ... on Page {
+          id
+          blocks
         }
       }
     }`,
   })
   return{
     props: {
-      data,
+      blocks: data?.nodeByUri?.blocks,
       myexampleprop: "test"
     }
   }
