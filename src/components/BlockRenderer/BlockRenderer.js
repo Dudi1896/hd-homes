@@ -2,21 +2,23 @@ import { theme } from "@/theme";
 import { Cover } from "../Cover";
 import { Heading } from "../Heading";
 import { Paragraph } from "../Paragraph";
-import { CallToActionButton } from '../CallToActionButton';
+import { CallToActionButton } from "../CallToActionButton";
+import { Columns } from "../Columns.js";
 
 export const BlockRenderer = ({ blocks }) => {
   return blocks.map((block) => {
     switch (block.name) {
       case "acf/ctabutton": {
-        return(
+        return (
           <CallToActionButton
-           key={block.id}
-           buttonLabel={block.attributes.data.label}
-           destination={block.attributes.data.destination || "/"}
-           align={block.attributes.data.align}
-           />
-        )
+            key={block.id}
+            buttonLabel={block.attributes.data.label}
+            destination={block.attributes.data.destination || "/"}
+            align={block.attributes.data.align}
+          />
+        );
       }
+
       case "core/paragraph": {
         return (
           <Paragraph
@@ -48,6 +50,17 @@ export const BlockRenderer = ({ blocks }) => {
           <Cover key={block.id} background={block.attributes.url}>
             <BlockRenderer blocks={block.innerBlocks} />
           </Cover>
+        );
+      }
+
+      case "core/columns": {
+        return (
+          <Columns
+            key={block.id}
+            isStackedOnMobile={block.attributes.isStackedOnMobile}
+          >
+            <BlockRenderer blocks={block.innerBlocks} />
+          </Columns>
         );
       }
 
