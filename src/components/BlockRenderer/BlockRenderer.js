@@ -3,7 +3,9 @@ import { Cover } from "../Cover";
 import { Heading } from "../Heading";
 import { Paragraph } from "../Paragraph";
 import { CallToActionButton } from "../CallToActionButton";
-import { Columns } from "../Columns.js";
+import { Columns } from "../Columns";
+import { Column } from "../Column";
+import Image from "next/image";
 
 export const BlockRenderer = ({ blocks }) => {
   return blocks.map((block) => {
@@ -61,6 +63,26 @@ export const BlockRenderer = ({ blocks }) => {
           >
             <BlockRenderer blocks={block.innerBlocks} />
           </Columns>
+        );
+      }
+
+      case "core/column": {
+        return (
+          <Column key={block.id} width={block.attributes.width}>
+            <BlockRenderer blocks={block.innerBlocks} />
+          </Column>
+        );
+      }
+
+      case "core/image": {
+        return (
+          <Image
+            key={block.id}
+            src={block.attributes.url}
+            height={block.attributes.height}
+            width={block.attributes.width}
+            alt={block.attributes.alt || ""}
+          />
         );
       }
 
